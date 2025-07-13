@@ -3,29 +3,48 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="no-referrer" />
   <title>クチコミアンケート</title>
   <link rel="stylesheet" href="style.css" />
+  <style>
+    /* ボタン風リンク */
+    .button-link {
+      display: inline-block;
+      padding: 10px 16px;
+      background-color: #4CAF50;
+      color: white;
+      text-align: center;
+      border-radius: 4px;
+      text-decoration: none;
+      cursor: pointer;
+      font-size: 16px;
+      margin-top: 10px;
+    }
+  </style>
 </head>
 <body>
   <div id="app">
     <div id="question-container"></div>
     <button id="prevBtn">戻る</button>
     <button id="nextBtn">次へ</button>
+
     <div id="result-container" style="display:none;">
       <h2>クチコミ文が生成されました！</h2>
       <textarea id="reviewText" rows="6"></textarea>
       <button id="copyBtn">コピーする</button>
-      <a
-        id="postLink"
-        href="https://g.page/r/CciW4fD4jwcoEBM/review"
-        target="_blank"
-        style="display:inline-block; padding:10px 20px; background:#007bff; color:white; border:none; border-radius:5px; text-align:center; text-decoration:none; margin-top:10px;"
-      >
-        Googleに投稿する
-      </a>
+      <!-- 投稿ボタン（window.open使用） -->
+      <a id="postLink" class="button-link">Googleに投稿する</a>
     </div>
   </div>
+
   <script src="config.js"></script>
   <script src="script.js"></script>
+  <script>
+    document.getElementById("postLink").addEventListener("click", function (e) {
+      e.preventDefault();
+      const reviewUrl = "https://g.page/r/CciW4fD4jwcoEBM/review";
+      window.open(reviewUrl, "_blank", "noopener");
+    });
+  </script>
 </body>
 </html>
