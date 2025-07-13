@@ -52,22 +52,27 @@ nextBtn.onclick = async () => {
     const prompt = "以下の質問と回答から、自然で丁寧なGoogleクチコミ文を1つ作ってください：\n" +
       questions.map((q, i) => `${q} 回答：${answers[i]}`).join("\n");
 
-    const res = await fetch("https://api.openai.com/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${API_KEY}`
-      },
-      body: JSON.stringify({
-        model: "gpt-3.5-turbo",
-        messages: [{ role: "user", content: prompt }],
-        temperature: 0.8
-      })
-    });
-    const data = await res.json();
-    const result = data.choices?.[0]?.message?.content || "生成失敗しました。";
+    try {
+      const res = await fetch("https://api.openai.com/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${API_KEY}`
+        },
+        body: JSON.stringify({
+          model: "gpt-3.5-turbo",
+          messages: [{ role: "user", content: prompt }],
+          temperature: 0.8
+        })
+      });
 
-    reviewText.value = result;
+      if (!res.ok) throw new Error("APIエラー");
+      const data = await res.json();
+      const result = data.choices?.[0]?.message?.content || "生成失敗しました。";
+      reviewText.value = result;
+    } catch (err) {
+      reviewText.value = "生成失敗しました。エラー内容: " + err.message;
+    }
 
     const placeId = new URLSearchParams(location.search).get("placeid") || "";
     postLink.href = `https://search.google.com/local/writereview?placeid=${placeId}`;
@@ -81,3 +86,5 @@ document.getElementById("copyBtn").onclick = () => {
 };
 
 renderQuestion();
+
+const API_KEY = "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";
