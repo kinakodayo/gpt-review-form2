@@ -39,6 +39,7 @@ prevBtn.onclick = () => {
 
 nextBtn.onclick = async () => {
   answers[current] = document.getElementById("answer").value;
+
   if (current < questions.length - 1) {
     current++;
     renderQuestion();
@@ -60,8 +61,8 @@ nextBtn.onclick = async () => {
 
       if (!res.ok) throw new Error("APIエラー");
 
-      const data = await res.json();
-      reviewText.value = data.result || "生成に失敗しました。";
+      const data = await res.text(); // ← Edge FunctionはJSON返してないので text() に変更
+      reviewText.value = data;
     } catch (err) {
       reviewText.value = "生成失敗しました。エラー内容: " + err.message;
     }
