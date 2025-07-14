@@ -1,2 +1,0 @@
-// OpenAIのAPIキーをここに貼ってください（安全に使うにはバックエンド推奨）
-const API_KEY = "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";
