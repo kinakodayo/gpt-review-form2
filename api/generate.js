@@ -28,13 +28,16 @@ export default async function handler(req, res) {
       })
     });
 
-    const data = await response.json();
-    console.log("🔍 OpenAI API Response:", data); // ← これを追加！
+    const responseText = await response.text();
+
+    // 🔍 OpenAI APIの生レスポンスをログに出力
+    console.log("🔍 OpenAI API Response:", responseText);
 
     if (!response.ok) {
-      return res.status(500).send("OpenAIエラー: " + JSON.stringify(data));
+      return res.status(500).send("OpenAIエラー: " + responseText);
     }
 
+    const data = JSON.parse(responseText);
     const result =
       data.choices?.[0]?.message?.content ||
       data.error?.message ||
@@ -43,8 +46,8 @@ export default async function handler(req, res) {
     res.setHeader("Content-Type", "text/plain");
     res.status(200).send(result);
 
-  } catch (error) {
-    console.error("❌ サーバー側エラー:", error);
-    res.status(500).send("サーバーエラー: " + error.message);
+  } catch (err) {
+    console.error("❌ 例外発生:", err);
+    res.status(500).send("内部エラー: " + err.message);
   }
 }
