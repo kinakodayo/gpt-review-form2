@@ -43,7 +43,6 @@ nextBtn.onclick = async () => {
     current++;
     renderQuestion();
   } else {
-    // 送信・生成
     questionContainer.style.display = "none";
     prevBtn.style.display = "none";
     nextBtn.style.display = "none";
@@ -53,23 +52,16 @@ nextBtn.onclick = async () => {
       questions.map((q, i) => `${q} 回答：${answers[i]}`).join("\n");
 
     try {
-      const res = await fetch("https://api.openai.com/v1/chat/completions", {
+      const res = await fetch("/api/generate", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${API_KEY}`
-        },
-        body: JSON.stringify({
-          model: "gpt-3.5-turbo",
-          messages: [{ role: "user", content: prompt }],
-          temperature: 0.8
-        })
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ prompt })
       });
 
       if (!res.ok) throw new Error("APIエラー");
+
       const data = await res.json();
-      const result = data.choices?.[0]?.message?.content || "生成失敗しました。";
-      reviewText.value = result;
+      reviewText.value = data.result || "生成に失敗しました。";
     } catch (err) {
       reviewText.value = "生成失敗しました。エラー内容: " + err.message;
     }
@@ -86,5 +78,3 @@ document.getElementById("copyBtn").onclick = () => {
 };
 
 renderQuestion();
-
-const API_KEY = "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";
