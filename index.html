@@ -26,7 +26,7 @@
     <!-- スタート画面 -->
     <div id="start-screen">
       <img src="logo.png" alt="キキコミロゴ" class="logo" />
-      <h1>キキコミハウスクリーニング</h1>
+      <h1 class="brand-title">キキコミハウスクリーニング</h1>
       <div class="description">
         <p>このアンケートは当店をご利用いただいた方を対象としています。</p>
         <p>アンケートに回答することで得られるデータは、当店のサービス改善に活用させていただきます。</p>
@@ -150,10 +150,10 @@
       reviewText.value = content;
       charCount.textContent = content.length;
 
-      updateGoogleLinks(); // 再確認
+      updateGoogleLinks();
     };
 
-    // ✅ Googleクチコミのリンク設定処理（place_id対応 or 固定）
+    // Googleクチコミのリンク設定
     function updateGoogleLinks() {
       const params = new URLSearchParams(window.location.search);
       const placeId = params.get("place") || "CciW4fD4jwcoEBM";
@@ -162,8 +162,21 @@
       if (reviewLinkBelow) reviewLinkBelow.href = googleUrl;
     }
 
-    // ✅ 初期化時に1回リンク設定（DOMが揃ってから）
-    document.addEventListener("DOMContentLoaded", updateGoogleLinks);
+    // 屋号をshopパラメータから取得して表示する
+    function setShopName() {
+      const params = new URLSearchParams(window.location.search);
+      const shopName = params.get("shop") || "キキコミハウスクリーニング";
+      const titleEls = document.querySelectorAll(".brand-title");
+      titleEls.forEach(el => {
+        el.textContent = shopName;
+      });
+    }
+
+    // 初期化時
+    document.addEventListener("DOMContentLoaded", () => {
+      updateGoogleLinks();
+      setShopName();
+    });
   </script>
 </body>
 </html>
