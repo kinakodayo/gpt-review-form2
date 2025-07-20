@@ -8,6 +8,8 @@ const viewDraftBtn = document.getElementById("viewDraftBtn");
 const reviewScreen = document.getElementById("review-screen");
 const reviewText = document.getElementById("reviewText");
 const charCount = document.getElementById("charCount");
+const reviewLink = document.getElementById("reviewLink"); // 完了画面のリンク
+const reviewLinkBelow = document.getElementById("reviewLinkBelow"); // 文章案画面のリンク
 
 // 質問管理
 const questions = [
@@ -34,6 +36,7 @@ const nextBtn = document.getElementById("nextBtn");
 startBtn.onclick = () => {
   startScreen.style.display = "none";
   questionScreen.style.display = "block";
+  renderQuestion();
 };
 
 function renderQuestion() {
@@ -77,10 +80,15 @@ nextBtn.onclick = () => {
 viewDraftBtn.onclick = () => {
   completeScreen.style.display = "none";
   reviewScreen.style.display = "block";
-  // サンプル文章。GPT連携ならここで生成。
-  const content = "回答いただいた内容からは、Googleマップのクチコミ文章を作成することができませんでした。アンケートへのご協力ありがとうございました。";
+
+  // ★今は仮固定の内容（GPTなどで後に置き換え可能）
+  let content = "ご依頼いただいたホームページ制作について、丁寧に対応していただき、とても満足しています。スタッフの方の対応も親切で、納得のいく仕上がりとなりました。今後もサポートを期待しています。";
+
+  // reviewTextに表示
   reviewText.value = content;
   charCount.textContent = content.length;
-};
 
-renderQuestion();
+  // 両方の「Googleに直接クチコミ」ボタンにリンクを設定
+  if (reviewLink) reviewLink.href = "https://www.google.com/search?q=キキコミ+ハウスクリーニング";
+  if (reviewLinkBelow) reviewLinkBelow.href = "https://www.google.com/search?q=キキコミ+ハウスクリーニング";
+};
