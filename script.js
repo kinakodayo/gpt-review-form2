@@ -26,12 +26,34 @@ let questions = [];
 let answers = [];
 let current = 0;
 
-// スタート画面から質問画面へ
-startBtn.onclick = () => {
-  startScreen.style.display = "none";
-  questionScreen.style.display = "block";
-  renderQuestion();
-};
+// JSON読み込み（非同期）
+async function loadShopData(shopKey) {
+  try {
+    const res = await fetch(`data/${shopKey}.json`);
+    if (!res.ok) throw new Error("JSON読み込み失敗");
+
+    const data = await res.json();
+    questions = data.questions || [];
+    answers = new Array(questions.length).fill("");
+    reviewText.value = data.review || "";
+    shopName = data.brand || shopName;
+    placeId = data.placeId || placeId;
+  } catch (e) {
+    console.error("ショップデータの読み込みに失敗：", e);
+    questions = ["このサービスをどう思いましたか？"];
+    answers = new Array(questions.length).fill("");
+    reviewText.value = "丁寧な対応で満足しています。";
+  }
+}
+
+// スタート画面から質問へ遷移
+function activateStartButton() {
+  startBtn.onclick = () => {
+    startScreen.style.display = "none";
+    questionScreen.style.display = "block";
+    renderQuestion(); // ← この時点で questions はセット済み
+  };
+}
 
 // 質問表示
 function renderQuestion() {
@@ -78,7 +100,7 @@ nextBtn.onclick = () => {
 viewDraftBtn.onclick = () => {
   completeScreen.style.display = "none";
   reviewScreen.style.display = "block";
-  reviewText.value = reviewText.value || "スタッフの皆さんの対応が丁寧で、とても満足しています。";
+  reviewText.value = reviewText.value || "丁寧な対応で満足しています。";
   charCount.textContent = reviewText.value.length;
   updateGoogleLinks();
 };
@@ -98,30 +120,10 @@ function setShopName() {
   });
 }
 
-// JSON読み込み
-async function loadShopData(shopKey) {
-  try {
-    const res = await fetch(`data/${shopKey}.json`);
-    if (!res.ok) throw new Error("JSON読み込み失敗");
-
-    const data = await res.json();
-    questions = data.questions || [];
-    answers = new Array(questions.length).fill("");
-    reviewText.value = data.review || "";
-    shopName = data.brand || shopName;
-    placeId = data.placeId || placeId;
-  } catch (e) {
-    console.error("ショップデータの読み込みに失敗：", e);
-    // デフォルトの質問をセット（万一読み込み失敗時）
-    questions = ["このサービスをどう思いましたか？"];
-    answers = new Array(questions.length).fill("");
-    reviewText.value = "丁寧な対応で満足しています。";
-  }
-}
-
-// 初期化処理
+// 初期化
 document.addEventListener("DOMContentLoaded", async () => {
   await loadShopData(shopParam);
   updateGoogleLinks();
   setShopName();
+  activateStartButton(); // ← 読み込み完了後にボタン機能を有効化！
 });
