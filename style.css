@@ -59,3 +59,23 @@ button:hover {
   color: #777;
   margin-top: 12px;
 }
+
+.logo {
+  display: block;
+  max-width: 180px;
+  margin: 0 auto 16px;
+}
+
+.description {
+  background-color: #fff;
+  padding: 16px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  line-height: 1.6;
+}
+
+.note {
+  color: red;
+  font-size: 14px;
+}
+
