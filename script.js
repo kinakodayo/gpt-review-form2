@@ -92,8 +92,15 @@ viewDraftBtn.onclick = () => {
   reviewText.value = content;
   charCount.textContent = content.length;
 
-  // Googleクチコミ投稿ページのリンク（上と下）を固定リンクに変更
-  const googleUrl = "https://g.page/r/CciW4fD4jwcoEBM/review";
+  // ✅ URLパラメータから place_id を取得してリンクに反映
+  const params = new URLSearchParams(window.location.search);
+  const placeId = params.get("place");
+
+  // デフォルトリンク（place_idが無い場合はGoogleトップ）
+  const googleUrl = placeId
+    ? `https://g.page/r/${placeId}/review`
+    : "https://www.google.com/";
+
   if (reviewLink) reviewLink.href = googleUrl;
   if (reviewLinkBelow) reviewLinkBelow.href = googleUrl;
 };
