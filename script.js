@@ -1,17 +1,15 @@
-// スクリーン制御
+// DOM取得
 const startBtn = document.getElementById("startBtn");
 const startScreen = document.getElementById("start-screen");
 const questionScreen = document.getElementById("question-screen");
 const completeScreen = document.getElementById("complete-screen");
+const completeTime = document.getElementById("complete-time");
+const viewDraftBtn = document.getElementById("viewDraftBtn");
 const reviewScreen = document.getElementById("review-screen");
-const completeTime = document.getElementById("response-date"); // IDを共通化
+const reviewText = document.getElementById("reviewText");
+const charCount = document.getElementById("charCount");
 
-startBtn.onclick = () => {
-  startScreen.style.display = "none";
-  questionScreen.style.display = "block";
-};
-
-// 質問内容
+// 質問管理
 const questions = [
   "どのようなホームページ制作をご依頼されましたか？",
   "弊社を選んでいただいた理由を教えてください。",
@@ -32,13 +30,18 @@ const questionContainer = document.getElementById("question-container");
 const prevBtn = document.getElementById("prevBtn");
 const nextBtn = document.getElementById("nextBtn");
 
+// 表示制御
+startBtn.onclick = () => {
+  startScreen.style.display = "none";
+  questionScreen.style.display = "block";
+};
+
 function renderQuestion() {
   questionContainer.innerHTML = `
     <p>Q${current + 1}. ${questions[current]}</p>
     <textarea id="answer">${answers[current]}</textarea>
     <p>${current + 1} / ${questions.length}問</p>
   `;
-
   prevBtn.style.display = current === 0 ? "none" : "inline-block";
   nextBtn.textContent = current === questions.length - 1 ? "完了" : "次へ";
 }
@@ -66,13 +69,18 @@ nextBtn.onclick = () => {
       hour: "2-digit",
       minute: "2-digit"
     });
-    completeTime.textContent = formatted;
+    completeTime.textContent = `アンケート回答日時：${formatted}`;
   }
 };
 
-function showReviewScreen() {
+// クチコミ文章案を見るボタン
+viewDraftBtn.onclick = () => {
   completeScreen.style.display = "none";
   reviewScreen.style.display = "block";
-}
+  // サンプル文章。GPT連携ならここで生成。
+  const content = "回答いただいた内容からは、Googleマップのクチコミ文章を作成することができませんでした。アンケートへのご協力ありがとうございました。";
+  reviewText.value = content;
+  charCount.textContent = content.length;
+};
 
 renderQuestion();
