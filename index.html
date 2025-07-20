@@ -6,17 +6,15 @@
   <title>キキコミハウスクリーニング</title>
   <link rel="stylesheet" href="style.css" />
   <style>
-    /* ✅ 追加：ボタン風のリンク */
     .btn-green {
       display: inline-block;
       background-color: #28a745;
       color: white;
       text-decoration: none;
-      padding: 12px 24px;
-      border-radius: 8px;
-      font-weight: bold;
-      text-align: center;
-      transition: background-color 0.2s;
+      padding: 10px 16px;
+      border-radius: 6px;
+      font-weight: 500;
+      font-size: 14px;
     }
     .btn-green:hover {
       background-color: #218838;
@@ -33,7 +31,7 @@
         <p>このアンケートは当店をご利用いただいた方を対象としています。</p>
         <p>アンケートに回答することで得られるデータは、当店のサービス改善に活用させていただきます。</p>
         <p>ご同意いただいた上でアンケートにお答えください。</p>
-        <p class="note">※本アンケートは、キキコミのデモアンケートです。お客様が実際に体験した感想をイメージしてお答えいただくと、よりリアルなクチコミ文章案をご確認いただけます。</p>
+        <p class="note">※本アンケートは、キキコミのデモアンケートです。</p>
       </div>
       <button id="startBtn">アンケートに答える</button>
     </div>
@@ -55,9 +53,7 @@
       <p id="complete-time"></p>
       <div class="button-group">
         <button id="viewDraftBtn">クチコミ文章案を見る</button>
-        <a id="reviewLink" class="btn-green" href="https://www.google.com/" target="_blank">
-          Googleに直接クチコミする
-        </a>
+        <a id="reviewLink" class="btn-green" target="_blank">Googleに直接クチコミする</a>
       </div>
     </div>
 
@@ -65,19 +61,109 @@
     <div id="review-screen" style="display: none;">
       <img src="logo.png" alt="キキコミロゴ" class="logo" />
       <h2>クチコミ文章案</h2>
-      <h3 class="brand-title">キキコミハウスクリーニング</h3>
-      <div class="tabs"><span class="active">文章案 1</span></div>
-      <textarea readonly id="reviewText">回答いただいた内容からは、Googleマップのクチコミ文章を作成することができませんでした。アンケートへのご協力ありがとうございました。</textarea>
-      <p class="char-count">文字数：<span id="charCount">68</span></p>
-      <p class="note red">上記はご回答いただいた内容をもとに生成した文章案です。<br><strong>必ず内容をご確認頂き、ご自身の気持ち・感想・体験に合わせて“直接編集”してから、クチコミにご活用ください。</strong></p>
-
-      <!-- ✅ 修正済：リンク単体でボタン表示 -->
-      <a id="reviewLinkBelow" class="btn-green" href="https://www.google.com/" target="_blank">
-        Googleに直接クチコミする
-      </a>
+      <textarea readonly id="reviewText"></textarea>
+      <p class="char-count">文字数：<span id="charCount">0</span></p>
+      <p class="note red"><strong>※ご自身で確認のうえ編集してご活用ください。</strong></p>
+      <a id="reviewLinkBelow" class="btn-green" target="_blank">Googleに直接クチコミする</a>
     </div>
   </div>
 
-  <script src="script.js"></script>
+  <script>
+    // DOM取得
+    const startBtn = document.getElementById("startBtn");
+    const startScreen = document.getElementById("start-screen");
+    const questionScreen = document.getElementById("question-screen");
+    const completeScreen = document.getElementById("complete-screen");
+    const completeTime = document.getElementById("complete-time");
+    const viewDraftBtn = document.getElementById("viewDraftBtn");
+    const reviewScreen = document.getElementById("review-screen");
+    const reviewText = document.getElementById("reviewText");
+    const charCount = document.getElementById("charCount");
+    const reviewLink = document.getElementById("reviewLink");
+    const reviewLinkBelow = document.getElementById("reviewLinkBelow");
+
+    const questions = [
+      "どのようなホームページ制作をご依頼されましたか？",
+      "弊社を選んでいただいた理由を教えてください。",
+      "制作の進行中、スタッフの対応はいかがでしたか？",
+      "ホームページの仕上がりについてどう感じましたか？",
+      "特に満足いただけたポイントはどこでしたか？",
+      "改善してほしい点やご要望があれば教えてください。",
+      "公開後の効果や反響について感じたことはありますか？",
+      "サポート対応や運用のしやすさはいかがですか？",
+      "他社と比較して、弊社の良かった点があれば教えてください。",
+      "このサービスはどんな方・企業におすすめしたいですか？"
+    ];
+
+    let current = 0;
+    let answers = new Array(questions.length).fill("");
+
+    const questionContainer = document.getElementById("question-container");
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+
+    // スタート
+    startBtn.onclick = () => {
+      startScreen.style.display = "none";
+      questionScreen.style.display = "block";
+      renderQuestion();
+    };
+
+    function renderQuestion() {
+      questionContainer.innerHTML = `
+        <p>Q${current + 1}. ${questions[current]}</p>
+        <textarea id="answer">${answers[current]}</textarea>
+        <p>${current + 1} / ${questions.length}問</p>
+      `;
+      prevBtn.style.display = current === 0 ? "none" : "inline-block";
+      nextBtn.textContent = current === questions.length - 1 ? "完了" : "次へ";
+    }
+
+    prevBtn.onclick = () => {
+      answers[current] = document.getElementById("answer").value;
+      if (current > 0) current--;
+      renderQuestion();
+    };
+
+    nextBtn.onclick = () => {
+      answers[current] = document.getElementById("answer").value;
+      if (current < questions.length - 1) {
+        current++;
+        renderQuestion();
+      } else {
+        questionScreen.style.display = "none";
+        completeScreen.style.display = "block";
+        const now = new Date();
+        completeTime.textContent = "アンケート回答日時：" + now.toLocaleString("ja-JP", {
+          year: "numeric", month: "2-digit", day: "2-digit",
+          hour: "2-digit", minute: "2-digit"
+        });
+        updateGoogleLinks();
+      }
+    };
+
+    viewDraftBtn.onclick = () => {
+      completeScreen.style.display = "none";
+      reviewScreen.style.display = "block";
+
+      const content = "ご依頼いただいたホームページ制作について、丁寧に対応していただき、とても満足しています。スタッフの方の対応も親切で、納得のいく仕上がりとなりました。今後もサポートを期待しています。";
+      reviewText.value = content;
+      charCount.textContent = content.length;
+
+      updateGoogleLinks(); // 再確認
+    };
+
+    // ✅ Googleクチコミのリンク設定処理（place_id対応 or 固定）
+    function updateGoogleLinks() {
+      const params = new URLSearchParams(window.location.search);
+      const placeId = params.get("place") || "CciW4fD4jwcoEBM";
+      const googleUrl = `https://g.page/r/${placeId}/review`;
+      if (reviewLink) reviewLink.href = googleUrl;
+      if (reviewLinkBelow) reviewLinkBelow.href = googleUrl;
+    }
+
+    // ✅ 初期化時に1回リンク設定（DOMが揃ってから）
+    document.addEventListener("DOMContentLoaded", updateGoogleLinks);
+  </script>
 </body>
 </html>
