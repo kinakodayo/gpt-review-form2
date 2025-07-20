@@ -3,24 +3,33 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="referrer" content="no-referrer" />
-  <title>クチコミアンケート</title>
+  <title>キキコミハウスクリーニング</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div id="app">
-    <div id="question-container"></div>
-    <button id="prevBtn">戻る</button>
-    <button id="nextBtn">次へ</button>
+    <!-- スタート画面 -->
+    <div id="start-screen">
+      <img src="logo.png" alt="キキコミロゴ" class="logo" />
+      <h1>キキコミハウスクリーニング</h1>
+      <div class="description">
+        <p>このアンケートは当店をご利用いただいた方を対象としています。</p>
+        <p>アンケートに回答することで得られるデータは、当店のサービス改善に活用させていただきます。</p>
+        <p>ご同意いただいた上でアンケートにお答えください。</p>
+        <p class="note">※本アンケートは、キキコミのデモアンケートです。お客様が実際に体験した感想をイメージしてお答えいただくと、よりリアルなクチコミ文章案をご確認いただけます。</p>
+      </div>
+      <button id="startBtn">アンケートに答える</button>
+    </div>
 
-    <div id="result-container" style="display:none;">
-      <h2>クチコミ文が生成されました！</h2>
-      <textarea id="reviewText" rows="6"></textarea>
-      <button id="copyBtn">コピーする</button>
-      <a id="postLink" class="button-link">Googleに投稿する</a>
+    <!-- アンケート画面（非表示から開始） -->
+    <div id="question-screen" style="display: none;">
+      <div id="question-container"></div>
+      <div id="footer">
+        <button id="prevBtn">戻る</button>
+        <button id="nextBtn">次へ</button>
+      </div>
     </div>
   </div>
-
-  <script src="script.js"></script>
 </body>
+<script src="script.js"></script>
 </html>
