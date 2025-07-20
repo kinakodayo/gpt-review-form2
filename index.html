@@ -5,6 +5,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>キキコミハウスクリーニング</title>
   <link rel="stylesheet" href="style.css" />
+  <style>
+    /* ✅ 追加：ボタン風のリンク */
+    .btn-green {
+      display: inline-block;
+      background-color: #28a745;
+      color: white;
+      text-decoration: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-weight: bold;
+      text-align: center;
+      transition: background-color 0.2s;
+    }
+    .btn-green:hover {
+      background-color: #218838;
+    }
+  </style>
 </head>
 <body>
   <div id="app">
@@ -38,8 +55,8 @@
       <p id="complete-time"></p>
       <div class="button-group">
         <button id="viewDraftBtn">クチコミ文章案を見る</button>
-        <a id="reviewLink" href="https://www.google.com/" target="_blank">
-          <button class="btn-green">Googleに直接クチコミする</button>
+        <a id="reviewLink" class="btn-green" href="https://www.google.com/" target="_blank">
+          Googleに直接クチコミする
         </a>
       </div>
     </div>
@@ -54,9 +71,9 @@
       <p class="char-count">文字数：<span id="charCount">68</span></p>
       <p class="note red">上記はご回答いただいた内容をもとに生成した文章案です。<br><strong>必ず内容をご確認頂き、ご自身の気持ち・感想・体験に合わせて“直接編集”してから、クチコミにご活用ください。</strong></p>
 
-      <!-- ✅ 追加：Googleに直接クチコミボタン -->
-      <a id="reviewLinkBelow" href="https://www.google.com/" target="_blank">
-        <button>Googleに直接クチコミする</button>
+      <!-- ✅ 修正済：リンク単体でボタン表示 -->
+      <a id="reviewLinkBelow" class="btn-green" href="https://www.google.com/" target="_blank">
+        Googleに直接クチコミする
       </a>
     </div>
   </div>
