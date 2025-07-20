@@ -10,47 +10,23 @@ const reviewText = document.getElementById("reviewText");
 const charCount = document.getElementById("charCount");
 const reviewLink = document.getElementById("reviewLink");
 const reviewLinkBelow = document.getElementById("reviewLinkBelow");
+
 const questionContainer = document.getElementById("question-container");
 const prevBtn = document.getElementById("prevBtn");
 const nextBtn = document.getElementById("nextBtn");
 
-// URLパラメータ
+// URLパラメータ取得
 const params = new URLSearchParams(window.location.search);
 const shopParam = params.get("shop") || "default";
+let placeId = params.get("place") || "CciW4fD4jwcoEBM";
+let shopName = "キキコミハウスクリーニング";
 
+// 質問と回答管理
 let questions = [];
 let answers = [];
 let current = 0;
-let reviewDraft = "";
-let googlePlaceId = "";
-let shopName = "";
 
-// 初期化
-document.addEventListener("DOMContentLoaded", async () => {
-  await loadShopData(shopParam);
-  answers = new Array(questions.length).fill("");
-  setShopName();
-  updateGoogleLinks();
-});
-
-// JSON読み込み
-async function loadShopData(shop) {
-  try {
-    const res = await fetch(`data/${shop}.json`);
-    const data = await res.json();
-    questions = data.questions || [];
-    reviewDraft = data.review || "";
-    googlePlaceId = data.placeId || "";
-    shopName = data.brand || "";
-  } catch (e) {
-    questions = ["質問の読み込みに失敗しました"];
-    reviewDraft = "クチコミ文案の読み込みに失敗しました";
-    googlePlaceId = "";
-    shopName = shop;
-  }
-}
-
-// スタート → 質問画面
+// スタート画面から質問画面へ
 startBtn.onclick = () => {
   startScreen.style.display = "none";
   questionScreen.style.display = "block";
@@ -68,14 +44,14 @@ function renderQuestion() {
   nextBtn.textContent = current === questions.length - 1 ? "完了" : "次へ";
 }
 
-// 前の質問
+// 前の質問へ
 prevBtn.onclick = () => {
   answers[current] = document.getElementById("answer").value;
   if (current > 0) current--;
   renderQuestion();
 };
 
-// 次の質問または完了
+// 次の質問 or 完了
 nextBtn.onclick = () => {
   answers[current] = document.getElementById("answer").value;
   if (current < questions.length - 1) {
@@ -84,36 +60,68 @@ nextBtn.onclick = () => {
   } else {
     questionScreen.style.display = "none";
     completeScreen.style.display = "block";
+
     const now = new Date();
     const formatted = now.toLocaleString("ja-JP", {
-      year: "numeric", month: "2-digit", day: "2-digit",
-      hour: "2-digit", minute: "2-digit"
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit"
     });
     completeTime.textContent = `アンケート回答日時：${formatted}`;
     updateGoogleLinks();
   }
 };
 
-// クチコミ文章案表示
+// クチコミ案表示
 viewDraftBtn.onclick = () => {
   completeScreen.style.display = "none";
   reviewScreen.style.display = "block";
-  reviewText.value = reviewDraft;
-  charCount.textContent = reviewDraft.length;
+  reviewText.value = reviewText.value || "スタッフの皆さんの対応が丁寧で、とても満足しています。";
+  charCount.textContent = reviewText.value.length;
   updateGoogleLinks();
 };
 
-// 屋号名表示
+// Googleクチコミリンク更新
+function updateGoogleLinks() {
+  const url = `https://g.page/r/${placeId}/review`;
+  if (reviewLink) reviewLink.href = url;
+  if (reviewLinkBelow) reviewLinkBelow.href = url;
+}
+
+// 屋号名表示更新
 function setShopName() {
-  document.querySelectorAll(".brand-title").forEach(el => {
+  const titleEls = document.querySelectorAll(".brand-title");
+  titleEls.forEach(el => {
     el.textContent = shopName;
   });
 }
 
-// Googleリンク更新
-function updateGoogleLinks() {
-  if (!googlePlaceId) return;
-  const url = `https://g.page/r/${googlePlaceId}/review`;
-  if (reviewLink) reviewLink.href = url;
-  if (reviewLinkBelow) reviewLinkBelow.href = url;
+// JSON読み込み
+async function loadShopData(shopKey) {
+  try {
+    const res = await fetch(`data/${shopKey}.json`);
+    if (!res.ok) throw new Error("JSON読み込み失敗");
+
+    const data = await res.json();
+    questions = data.questions || [];
+    answers = new Array(questions.length).fill("");
+    reviewText.value = data.review || "";
+    shopName = data.brand || shopName;
+    placeId = data.placeId || placeId;
+  } catch (e) {
+    console.error("ショップデータの読み込みに失敗：", e);
+    // デフォルトの質問をセット（万一読み込み失敗時）
+    questions = ["このサービスをどう思いましたか？"];
+    answers = new Array(questions.length).fill("");
+    reviewText.value = "丁寧な対応で満足しています。";
+  }
 }
+
+// 初期化処理
+document.addEventListener("DOMContentLoaded", async () => {
+  await loadShopData(shopParam);
+  updateGoogleLinks();
+  setShopName();
+});
