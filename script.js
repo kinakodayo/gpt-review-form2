@@ -26,6 +26,14 @@ let questions = [];
 let answers = [];
 let current = 0;
 
+// 初期表示のリセット
+function resetScreens() {
+  startScreen.style.display = "block";
+  questionScreen.style.display = "none";
+  completeScreen.style.display = "none";
+  reviewScreen.style.display = "none";
+}
+
 // JSON読み込み（非同期）
 async function loadShopData(shopKey) {
   try {
@@ -51,7 +59,7 @@ function activateStartButton() {
   startBtn.onclick = () => {
     startScreen.style.display = "none";
     questionScreen.style.display = "block";
-    renderQuestion(); // ← この時点で questions はセット済み
+    renderQuestion();
   };
 }
 
@@ -100,16 +108,37 @@ nextBtn.onclick = () => {
 viewDraftBtn.onclick = () => {
   completeScreen.style.display = "none";
   reviewScreen.style.display = "block";
-  reviewText.value = reviewText.value || "丁寧な対応で満足しています。";
+  if (!reviewText.value) {
+    reviewText.value = "丁寧な対応で満足しています。";
+  }
   charCount.textContent = reviewText.value.length;
   updateGoogleLinks();
 };
 
-// Googleクチコミリンク更新
+// Googleクチコミリンク更新＋コピー機能付き
 function updateGoogleLinks() {
   const url = `https://g.page/r/${placeId}/review`;
-  if (reviewLink) reviewLink.href = url;
-  if (reviewLinkBelow) reviewLinkBelow.href = url;
+
+  const copyReviewToClipboard = () => {
+    const text = reviewText.value;
+    if (text) {
+      navigator.clipboard.writeText(text).then(() => {
+        console.log("クチコミ文案をコピーしました。");
+      }).catch(err => {
+        console.warn("コピーに失敗しました:", err);
+      });
+    }
+  };
+
+  if (reviewLink) {
+    reviewLink.href = url;
+    reviewLink.onclick = copyReviewToClipboard;
+  }
+
+  if (reviewLinkBelow) {
+    reviewLinkBelow.href = url;
+    reviewLinkBelow.onclick = copyReviewToClipboard;
+  }
 }
 
 // 屋号名表示更新
@@ -122,8 +151,9 @@ function setShopName() {
 
 // 初期化
 document.addEventListener("DOMContentLoaded", async () => {
+  resetScreens();
   await loadShopData(shopParam);
   updateGoogleLinks();
   setShopName();
-  activateStartButton(); // ← 読み込み完了後にボタン機能を有効化！
+  activateStartButton();
 });
