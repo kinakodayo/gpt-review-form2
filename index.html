@@ -48,9 +48,14 @@
       <img src="logo.png" alt="キキコミロゴ" class="logo" />
       <h2>クチコミ文章案</h2>
       <div class="tabs"><span class="active">文章案 1</span></div>
-      <textarea readonly id="reviewText">回答いただいた内容からは、Googleマップのクチコミ文章を作成することができませんでした。アンケートへのご協力ありがとうございました。</textarea>
+      <textarea readonly id="reviewText" style="height: 180px;">回答いただいた内容からは、Googleマップのクチコミ文章を作成することができませんでした。アンケートへのご協力ありがとうございました。</textarea>
       <p class="char-count">文字数：<span id="charCount">68</span></p>
       <p class="note red">上記はご回答いただいた内容をもとに生成した文章案です。<br><strong>必ず内容をご確認頂き、ご自身の気持ち・感想・体験に合わせて“直接編集”してから、クチコミにご活用ください。</strong></p>
+
+      <!-- ✅ 追加：Googleに直接クチコミボタン -->
+      <a id="reviewLinkBelow" href="https://www.google.com/" target="_blank">
+        <button class="green">Googleに直接クチコミする</button>
+      </a>
     </div>
   </div>
 
