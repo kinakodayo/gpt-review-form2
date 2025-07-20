@@ -8,7 +8,6 @@
 </head>
 <body>
   <div id="app">
-
     <!-- スタート画面 -->
     <div id="start-screen">
       <img src="logo.png" alt="キキコミロゴ" class="logo" />
@@ -32,27 +31,29 @@
     </div>
 
     <!-- 完了画面 -->
-    <div id="complete-screen" style="display: none; text-align: center;">
+    <div id="complete-screen" style="display: none;">
       <img src="logo.png" alt="キキコミロゴ" class="logo" />
       <p>ご回答ありがとうございました！</p>
-      <p>アンケート回答日時：<span id="response-date"></span></p>
-      <button onclick="showReviewScreen()">次へ進む</button>
-    </div>
-
-    <!-- クチコミ文案画面 -->
-    <div id="review-screen" style="display: none; text-align: center;">
-      <img src="logo.png" alt="キキコミロゴ" class="logo" />
-      <p>ご回答頂いた内容を元に<br><strong>クチコミ文章案を作成</strong>しました！<br>次の画面でご確認ください！</p>
-
-      <button class="btn-blue" onclick="alert('クチコミ文章案を表示します（仮）')">クチコミ文章案を見る</button>
-      <button class="btn-green" onclick="window.open('https://www.google.com/maps', '_blank')">Googleに直接クチコミする</button>
-
-      <div style="margin-top: 30px;">
-        <img src="kikikomi-footer-logo.png" alt="キキコミフッターロゴ" style="height: 32px;" />
+      <p id="complete-time"></p>
+      <div class="button-group">
+        <button id="viewDraftBtn">クチコミ文章案を見る</button>
+        <a id="reviewLink" href="https://www.google.com/" target="_blank">
+          <button class="green">Googleに直接クチコミする</button>
+        </a>
       </div>
     </div>
 
+    <!-- 文章案画面 -->
+    <div id="review-screen" style="display: none;">
+      <img src="logo.png" alt="キキコミロゴ" class="logo" />
+      <h2>クチコミ文章案</h2>
+      <div class="tabs"><span class="active">文章案 1</span></div>
+      <textarea readonly id="reviewText">回答いただいた内容からは、Googleマップのクチコミ文章を作成することができませんでした。アンケートへのご協力ありがとうございました。</textarea>
+      <p class="char-count">文字数：<span id="charCount">68</span></p>
+      <p class="note red">上記はご回答いただいた内容をもとに生成した文章案です。<br><strong>必ず内容をご確認頂き、ご自身の気持ち・感想・体験に合わせて“直接編集”してから、クチコミにご活用ください。</strong></p>
+    </div>
   </div>
+
   <script src="script.js"></script>
 </body>
 </html>
