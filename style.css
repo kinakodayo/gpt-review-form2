@@ -1,80 +1,86 @@
 body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f7f8fa;
   margin: 0;
   padding: 0;
-  background-color: #fff5ec;
-  font-family: 'Noto Sans JP', sans-serif;
+  text-align: center;
 }
 
-#app {
-  max-width: 480px;
-  margin: 40px auto;
-  background-color: #ffffff;
-  border-radius: 16px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  padding: 24px;
+.logo {
+  margin-top: 30px;
+  height: 60px;
 }
 
-#question-container p:first-child {
-  font-size: 18px;
-  font-weight: bold;
-  margin-bottom: 12px;
+h1 {
+  font-size: 22px;
+  margin: 12px 0;
+  color: #333;
 }
 
-textarea {
-  width: 100%;
-  font-size: 16px;
-  padding: 12px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  resize: vertical;
-  box-sizing: border-box;
+.description {
+  padding: 0 24px;
+  font-size: 14px;
+  color: #444;
 }
 
-#footer {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
+.note {
+  margin-top: 10px;
+  font-size: 12px;
+  color: #888;
 }
 
 button {
-  flex: 1;
-  margin: 0 5px;
-  padding: 14px 0;
+  margin: 20px auto;
+  padding: 14px 30px;
   font-size: 16px;
   background-color: #007bff;
   color: white;
   border: none;
-  border-radius: 8px;
+  border-radius: 32px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  display: block;
 }
 
 button:hover {
   background-color: #0056b3;
 }
 
-#question-container p:last-child {
-  text-align: center;
-  font-size: 12px;
-  color: #777;
-  margin-top: 12px;
+#footer {
+  margin-top: 30px;
 }
 
-.logo {
+#footer button {
+  margin: 10px;
+}
+
+.btn-blue {
   display: block;
-  max-width: 180px;
-  margin: 0 auto 16px;
+  width: 80%;
+  margin: 12px auto;
+  padding: 14px;
+  font-size: 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 32px;
+  cursor: pointer;
+}
+.btn-blue:hover {
+  background-color: #0056b3;
 }
 
-.description {
-  background-color: #fff;
-  padding: 16px;
-  border-radius: 12px;
-  margin-bottom: 20px;
-  line-height: 1.6;
+.btn-green {
+  display: block;
+  width: 80%;
+  margin: 12px auto;
+  padding: 14px;
+  font-size: 16px;
+  background-color: #34a853;
+  color: white;
+  border: none;
+  border-radius: 32px;
+  cursor: pointer;
 }
-
-.note {
-  color: red;
-  font-size: 14px;
+.btn-green:hover {
+  background-color: #228e40;
 }
