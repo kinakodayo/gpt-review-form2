@@ -54,12 +54,38 @@
       <p class="char-count">文字数：<span id="charCount">68</span></p>
       <p class="note red">上記はご回答いただいた内容をもとに生成した文章案です。<br><strong>必ず内容をご確認頂き、ご自身の気持ち・感想・体験に合わせて“直接編集”してから、クチコミにご活用ください。</strong></p>
 
-      <!-- ✅ 追加：Googleに直接クチコミボタン -->
+      <!-- ✅ クチコミ投稿ボタン（文章案画面） -->
       <a id="reviewLinkBelow" href="https://www.google.com/" target="_blank">
-        <button>Googleに直接クチコミする</button>
+        <button class="btn-green">Googleに直接クチコミする</button>
       </a>
     </div>
   </div>
+
+  <script>
+    // ✅ クエリから place_id を取得
+    function getQueryParam(key) {
+      const params = new URLSearchParams(window.location.search);
+      return params.get(key);
+    }
+
+    // ✅ Googleレビュー投稿URLを生成
+    const placeId = getQueryParam("place_id");
+    const googleReviewUrl = placeId ? `https://g.page/r/${placeId}/review` : null;
+
+    // ✅ ボタンにURLを反映
+    window.addEventListener('DOMContentLoaded', () => {
+      const reviewLink = document.getElementById("reviewLink");
+      const reviewLinkBelow = document.getElementById("reviewLinkBelow");
+
+      if (googleReviewUrl) {
+        if (reviewLink) reviewLink.href = googleReviewUrl;
+        if (reviewLinkBelow) reviewLinkBelow.href = googleReviewUrl;
+      } else {
+        if (reviewLink) reviewLink.style.display = "none";
+        if (reviewLinkBelow) reviewLinkBelow.style.display = "none";
+      }
+    });
+  </script>
 
   <script src="script.js"></script>
 </body>
