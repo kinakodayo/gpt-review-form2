@@ -32,26 +32,23 @@ async function loadShopData(shopKey) {
     if (!res.ok) throw new Error("JSON読み込み失敗");
 
     const data = await res.json();
-    questions = data.questions || [];
+    console.log("✅ 読み込んだデータ:", data);
+
+    questions = data.questions || ["このサービスをどう思いましたか？"];
     answers = new Array(questions.length).fill("");
     reviewText.value = data.review || "";
     shopName = data.brand || shopName;
     placeId = data.placeId || placeId;
+
+    console.log("✅ 質問数:", questions.length);
+    console.log("✅ reviewText:", reviewText.value);
+
   } catch (e) {
-    console.error("ショップデータの読み込みに失敗：", e);
+    console.error("❌ ショップデータの読み込みに失敗：", e);
     questions = ["このサービスをどう思いましたか？"];
     answers = new Array(questions.length).fill("");
     reviewText.value = "丁寧な対応で満足しています。";
   }
-}
-
-// スタート画面から質問へ遷移
-function activateStartButton() {
-  startBtn.onclick = () => {
-    startScreen.style.display = "none";
-    questionScreen.style.display = "block";
-    renderQuestion();
-  };
 }
 
 // 質問表示
@@ -103,7 +100,7 @@ viewDraftBtn.onclick = () => {
   updateGoogleLinks();
 };
 
-// 文字数カウント（リアルタイム）
+// 文字数カウント
 reviewText.addEventListener("input", () => {
   charCount.textContent = reviewText.value.length;
 });
@@ -111,26 +108,18 @@ reviewText.addEventListener("input", () => {
 // Googleクチコミリンク更新
 function updateGoogleLinks() {
   const url = `https://g.page/r/${placeId}/review`;
-  if (reviewLink) {
-    reviewLink.onclick = () => {
-      const text = reviewText.value || "丁寧な対応で満足しています。";
-      navigator.clipboard.writeText(text).then(() => {
-        showCopyToast();
-        window.open(url, '_blank');
-      });
-      return false;
-    };
-  }
-  if (reviewLinkBelow) {
-    reviewLinkBelow.onclick = () => {
-      const text = reviewText.value || "丁寧な対応で満足しています。";
-      navigator.clipboard.writeText(text).then(() => {
-        showCopyToast();
-        window.open(url, '_blank');
-      });
-      return false;
-    };
-  }
+  [reviewLink, reviewLinkBelow].forEach(link => {
+    if (link) {
+      link.onclick = () => {
+        const text = reviewText.value || "丁寧な対応で満足しています。";
+        navigator.clipboard.writeText(text).then(() => {
+          showCopyToast();
+          window.open(url, '_blank');
+        });
+        return false;
+      };
+    }
+  });
 }
 
 // コピー通知表示
@@ -165,5 +154,16 @@ document.addEventListener("DOMContentLoaded", async () => {
   await loadShopData(shopParam);
   updateGoogleLinks();
   setShopName();
-  activateStartButton();
+
+  startBtn.onclick = () => {
+    // 再確認用（念のため）
+    if (!questions || questions.length === 0) {
+      alert("質問データの読み込みに失敗しました。");
+      return;
+    }
+
+    startScreen.style.display = "none";
+    questionScreen.style.display = "block";
+    renderQuestion();
+  };
 });
