@@ -1,4 +1,4 @@
-// スタート画面の表示制御（追加）
+// スタート画面制御
 const startBtn = document.getElementById("startBtn");
 const startScreen = document.getElementById("start-screen");
 const questionScreen = document.getElementById("question-screen");
@@ -8,7 +8,7 @@ startBtn.onclick = () => {
   questionScreen.style.display = "block";
 };
 
-// アンケート処理
+// アンケート内容と制御
 const questions = [
   "どのようなホームページ制作をご依頼されましたか？",
   "弊社を選んでいただいた理由を教えてください。",
@@ -33,7 +33,7 @@ function renderQuestion() {
   questionContainer.innerHTML = `
     <p>Q${current + 1}. ${questions[current]}</p>
     <textarea id="answer">${answers[current]}</textarea>
-    <p style="font-size: 12px; color: gray;">${current + 1} / ${questions.length}問</p>
+    <p>${current + 1} / ${questions.length}問</p>
   `;
 
   prevBtn.style.display = current === 0 ? "none" : "inline-block";
@@ -54,6 +54,8 @@ nextBtn.onclick = () => {
   } else {
     alert("アンケートが完了しました。");
     console.log("回答:", answers);
-    // ここにGPT送信処理などを後で追加できます
+    // ここにGPTなどの送信処理追加OK
   }
 };
+
+renderQuestion();
