@@ -6,7 +6,7 @@ body {
   font-family: 'Helvetica', 'Arial', sans-serif;
 }
 
-/* スタート・質問・完了・レビュー画面の共通レイアウト */
+/* スクリーン共通レイアウト */
 #start-screen, #question-screen, #complete-screen, #review-screen {
   max-width: 400px;
   margin: 60px auto;
@@ -16,14 +16,6 @@ body {
   box-shadow: 0 0 12px rgba(0,0,0,0.05);
   text-align: center;
   position: relative;
-}
-
-/* 屋号表示 */
-.brand-name {
-  font-size: 16px;
-  font-weight: bold;
-  color: #555;
-  margin-bottom: 10px;
 }
 
 /* ロゴ */
@@ -61,17 +53,20 @@ body {
 
 /* ボタン共通デザイン */
 button,
-.btn-blue, .btn-green {
-  display: block;
-  width: 100%;
-  padding: 12px 0;
-  margin: 12px auto;
-  font-size: 16px;
+.btn-blue,
+.btn-green {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 15px;
   font-weight: bold;
   border-radius: 999px;
   border: none;
   cursor: pointer;
-  transition: 0.2s ease;
+  text-align: center;
+  text-decoration: none;
+  box-sizing: border-box;
+  max-width: 100%;
+  margin: 12px auto;
 }
 
 /* カラー別ボタン */
@@ -95,12 +90,10 @@ button,
 #prevBtn {
   background-color: #ccc;
   color: #333;
-  display: inline-block;
   width: 45%;
   margin-right: 5%;
 }
 #nextBtn {
-  display: inline-block;
   width: 45%;
 }
 
@@ -111,9 +104,7 @@ button,
   margin-top: 12px;
 }
 
-/* --- ⬇️ クチコミ文章案画面用スタイル追加 ⬇️ --- */
-
-/* クチコミ文章案のテキストボックス */
+/* クチコミ文章案画面 */
 #reviewText {
   width: 100%;
   height: 240px;
@@ -126,7 +117,6 @@ button,
   margin-top: 10px;
 }
 
-/* 文字数カウント */
 .char-count {
   text-align: right;
   font-size: 14px;
@@ -134,7 +124,6 @@ button,
   margin-top: 8px;
 }
 
-/* 注意文 */
 .note {
   font-size: 13px;
   color: #888;
@@ -144,24 +133,9 @@ button,
   color: #d9534f;
 }
 
-/* Googleにクチコミボタン（文章案ページにも） */
+/* クチコミボタン（下） */
 #reviewLinkBelow {
-  display: block;
-  margin-top: 24px;
+  display: inline-block;
   text-decoration: none;
-}
-#reviewLinkBelow button {
-  background-color: #28A745;
-  color: white;
-  font-size: 15px;
-  font-weight: bold;
-  padding: 12px 0;
-  border: none;
-  border-radius: 999px;
-  cursor: pointer;
-  width: 100%;
-  transition: background-color 0.2s ease;
-}
-#reviewLinkBelow button:hover {
-  background-color: #218838;
+  margin-top: 20px;
 }
