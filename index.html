@@ -3,57 +3,123 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>キキコミハウスクリーニング</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>クチコミ文章案</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #f5f5f5;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: #fff;
+      padding: 20px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      min-height: 100vh;
+      box-sizing: border-box;
+    }
+
+    .title {
+      font-size: 20px;
+      text-align: center;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .tab {
+      color: #007bff;
+      margin-bottom: 10px;
+      border-bottom: 2px solid #007bff;
+      display: inline-block;
+      font-weight: bold;
+    }
+
+    textarea {
+      width: 100%;
+      height: 120px;
+      font-size: 16px;
+      padding: 10px;
+      box-sizing: border-box;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      resize: none;
+    }
+
+    .count {
+      text-align: right;
+      font-size: 14px;
+      margin-top: 5px;
+    }
+
+    .note {
+      font-size: 14px;
+      color: #000;
+      margin-top: 15px;
+    }
+
+    .note span {
+      color: red;
+      font-weight: bold;
+    }
+
+    .button {
+      margin-top: 30px;
+      text-align: center;
+    }
+
+    .button a {
+      display: inline-block;
+      padding: 15px 20px;
+      background-color: #00a46f;
+      color: #fff;
+      font-size: 18px;
+      border-radius: 30px;
+      text-decoration: none;
+      width: 90%;
+      max-width: 400px;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 40px;
+    }
+
+    .footer img {
+      height: 40px;
+      margin-bottom: 5px;
+    }
+
+    .footer p {
+      font-size: 12px;
+      color: #888;
+    }
+  </style>
 </head>
 <body>
-  <div id="app">
-    <!-- スタート画面 -->
-    <div id="start-screen">
-      <img src="logo.png" alt="キキコミロゴ" class="logo" />
-      <h1>キキコミハウスクリーニング</h1>
-      <div class="description">
-        <p>このアンケートは当店をご利用いただいた方を対象としています。</p>
-        <p>アンケートに回答することで得られるデータは、当店のサービス改善に活用させていただきます。</p>
-        <p>ご同意いただいた上でアンケートにお答えください。</p>
-        <p class="note">※本アンケートは、キキコミのデモアンケートです。お客様が実際に体験した感想をイメージしてお答えいただくと、よりリアルなクチコミ文章案をご確認いただけます。</p>
-      </div>
-      <button id="startBtn">アンケートに答える</button>
+  <div class="container">
+    <div class="title">クチコミ文章案</div>
+    <div class="tab">文章案 1</div>
+
+    <textarea readonly>
+回答いただいた内容からは、Googleマップのクチコミ文章を作成することができませんでした。アンケートへのご協力ありがとうございました。
+    </textarea>
+    <div class="count">文字数：68</div>
+
+    <div class="note">
+      上記はご回答いただいた内容をもとに生成した文章案です。<span>必ず内容をご確認頂き、ご自身の気持ち・感想・体験に合わせて“直接編集”してから、クチコミにご活用ください。</span>
     </div>
 
-    <!-- アンケート画面 -->
-    <div id="question-screen" style="display: none;">
-      <div id="question-container"></div>
-      <div id="footer">
-        <button id="prevBtn">戻る</button>
-        <button id="nextBtn">次へ</button>
-      </div>
+    <div class="button">
+      <a href="#" target="_blank">Googleに直接クチコミする</a>
     </div>
 
-    <!-- 完了画面 -->
-    <div id="complete-screen" style="display: none;">
-      <img src="logo.png" alt="キキコミロゴ" class="logo" />
-      <p>ご回答ありがとうございました！</p>
-      <p id="complete-time"></p>
-      <div class="button-group">
-        <button id="viewDraftBtn">クチコミ文章案を見る</button>
-        <a id="reviewLink" href="https://www.google.com/" target="_blank">
-          <button class="green">Googleに直接クチコミする</button>
-        </a>
-      </div>
-    </div>
-
-    <!-- 文章案画面 -->
-    <div id="review-screen" style="display: none;">
-      <img src="logo.png" alt="キキコミロゴ" class="logo" />
-      <h2>クチコミ文章案</h2>
-      <div class="tabs"><span class="active">文章案 1</span></div>
-      <textarea readonly id="reviewText">回答いただいた内容からは、Googleマップのクチコミ文章を作成することができませんでした。アンケートへのご協力ありがとうございました。</textarea>
-      <p class="char-count">文字数：<span id="charCount">68</span></p>
-      <p class="note red">上記はご回答いただいた内容をもとに生成した文章案です。<br><strong>必ず内容をご確認頂き、ご自身の気持ち・感想・体験に合わせて“直接編集”してから、クチコミにご活用ください。</strong></p>
+    <div class="footer">
+      <img src="https://gyro-n.com/wp-content/themes/gyro-n2/img/logo_kikikomi.svg" alt="キキコミロゴ">
+      <p>出願番号：特願2023-180095号</p>
     </div>
   </div>
-
-  <script src="script.js"></script>
 </body>
 </html>
