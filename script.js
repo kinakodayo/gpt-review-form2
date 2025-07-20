@@ -92,8 +92,8 @@ viewDraftBtn.onclick = () => {
   reviewText.value = content;
   charCount.textContent = content.length;
 
-  // Googleクチコミ投稿ページのリンク（上と下）
-  const googleUrl = "https://www.google.com/search?q=キキコミ+ハウスクリーニング";
+  // Googleクチコミ投稿ページのリンク（上と下）を固定リンクに変更
+  const googleUrl = "https://g.page/r/CciW4fD4jwcoEBM/review";
   if (reviewLink) reviewLink.href = googleUrl;
   if (reviewLinkBelow) reviewLinkBelow.href = googleUrl;
 };
