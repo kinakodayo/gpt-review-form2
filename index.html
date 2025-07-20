@@ -8,6 +8,7 @@
 </head>
 <body>
   <div id="app">
+
     <!-- スタート画面 -->
     <div id="start-screen">
       <img src="logo.png" alt="キキコミロゴ" class="logo" />
@@ -34,12 +35,23 @@
     <div id="complete-screen" style="display: none; text-align: center;">
       <img src="logo.png" alt="キキコミロゴ" class="logo" />
       <p>ご回答ありがとうございました！</p>
-      <p id="complete-time">アンケート回答日時：</p>
-      <button onclick="window.location.href='/'">次へ進む</button>
+      <p>アンケート回答日時：<span id="response-date"></span></p>
+      <button onclick="showReviewScreen()">次へ進む</button>
+    </div>
+
+    <!-- クチコミ文案画面 -->
+    <div id="review-screen" style="display: none; text-align: center;">
+      <img src="logo.png" alt="キキコミロゴ" class="logo" />
+      <p>ご回答頂いた内容を元に<br><strong>クチコミ文章案を作成</strong>しました！<br>次の画面でご確認ください！</p>
+
+      <button class="btn-blue" onclick="alert('クチコミ文章案を表示します（仮）')">クチコミ文章案を見る</button>
+      <button class="btn-green" onclick="window.open('https://www.google.com/maps', '_blank')">Googleに直接クチコミする</button>
+
       <div style="margin-top: 30px;">
         <img src="kikikomi-footer-logo.png" alt="キキコミフッターロゴ" style="height: 32px;" />
       </div>
     </div>
+
   </div>
   <script src="script.js"></script>
 </body>
