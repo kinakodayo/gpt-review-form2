@@ -15,6 +15,15 @@ body {
   border-radius: 16px;
   box-shadow: 0 0 12px rgba(0,0,0,0.05);
   text-align: center;
+  position: relative;
+}
+
+/* 屋号表示 */
+.brand-name {
+  font-size: 16px;
+  font-weight: bold;
+  color: #555;
+  margin-bottom: 10px;
 }
 
 /* ロゴ */
@@ -39,6 +48,7 @@ body {
   border: 1px solid #ccc;
   border-radius: 8px;
   resize: vertical;
+  box-sizing: border-box;
 }
 
 /* 質問カウンター */
@@ -101,18 +111,19 @@ button,
   margin-top: 12px;
 }
 
-/* --- ⬇️ 追加部分ここから ⬇️ --- */
+/* --- ⬇️ クチコミ文章案画面用スタイル追加 ⬇️ --- */
 
-/* クチコミ文章案のテキストボックスを大きめに */
+/* クチコミ文章案のテキストボックス */
 #reviewText {
   width: 100%;
-  height: 240px;  /* ← 以前より広く */
+  height: 240px;
   padding: 12px;
   font-size: 15px;
   border: 1px solid #ccc;
   border-radius: 10px;
   resize: vertical;
   box-sizing: border-box;
+  margin-top: 10px;
 }
 
 /* 文字数カウント */
@@ -154,5 +165,3 @@ button,
 #reviewLinkBelow button:hover {
   background-color: #218838;
 }
-
-/* --- ⬆️ 追加部分ここまで ⬆️ --- */
