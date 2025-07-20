@@ -1,3 +1,14 @@
+// スタート画面の表示制御（追加）
+const startBtn = document.getElementById("startBtn");
+const startScreen = document.getElementById("start-screen");
+const questionScreen = document.getElementById("question-screen");
+
+startBtn.onclick = () => {
+  startScreen.style.display = "none";
+  questionScreen.style.display = "block";
+};
+
+// アンケート処理
 const questions = [
   "どのようなホームページ制作をご依頼されましたか？",
   "弊社を選んでいただいた理由を教えてください。",
@@ -46,5 +57,3 @@ nextBtn.onclick = () => {
     // ここにGPT送信処理などを後で追加できます
   }
 };
-
-renderQuestion();
