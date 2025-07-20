@@ -3,14 +3,15 @@ const startBtn = document.getElementById("startBtn");
 const startScreen = document.getElementById("start-screen");
 const questionScreen = document.getElementById("question-screen");
 const completeScreen = document.getElementById("complete-screen");
-const completeTime = document.getElementById("complete-time");
+const reviewScreen = document.getElementById("review-screen");
+const completeTime = document.getElementById("response-date"); // IDを共通化
 
 startBtn.onclick = () => {
   startScreen.style.display = "none";
   questionScreen.style.display = "block";
 };
 
-// 質問と回答管理
+// 質問内容
 const questions = [
   "どのようなホームページ制作をご依頼されましたか？",
   "弊社を選んでいただいた理由を教えてください。",
@@ -65,8 +66,13 @@ nextBtn.onclick = () => {
       hour: "2-digit",
       minute: "2-digit"
     });
-    completeTime.textContent = `アンケート回答日時：${formatted}`;
+    completeTime.textContent = formatted;
   }
 };
+
+function showReviewScreen() {
+  completeScreen.style.display = "none";
+  reviewScreen.style.display = "block";
+}
 
 renderQuestion();
