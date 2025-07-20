@@ -11,6 +11,16 @@ const charCount = document.getElementById("charCount");
 const reviewLink = document.getElementById("reviewLink"); // 完了画面のリンク
 const reviewLinkBelow = document.getElementById("reviewLinkBelow"); // 文章案画面のリンク
 
+// URLパラメータから place_id を取得
+function getQueryParam(key) {
+  const params = new URLSearchParams(window.location.search);
+  return params.get(key);
+}
+const placeId = getQueryParam("place_id");
+const googleUrl = placeId
+  ? `https://g.page/r/${placeId}/review`
+  : "https://www.google.com/search?q=キキコミ+ハウスクリーニング";
+
 // 質問管理
 const questions = [
   "どのようなホームページ制作をご依頼されましたか？",
@@ -76,6 +86,9 @@ nextBtn.onclick = () => {
       minute: "2-digit"
     });
     completeTime.textContent = `アンケート回答日時：${formatted}`;
+
+    // ✅ Googleリンクに反映
+    if (reviewLink) reviewLink.href = googleUrl;
   }
 };
 
@@ -92,8 +105,6 @@ viewDraftBtn.onclick = () => {
   reviewText.value = content;
   charCount.textContent = content.length;
 
-  // Googleクチコミ投稿ページのリンク（上と下）
-  const googleUrl = "https://www.google.com/search?q=キキコミ+ハウスクリーニング";
-  if (reviewLink) reviewLink.href = googleUrl;
+  // ✅ 下部リンクにも反映
   if (reviewLinkBelow) reviewLinkBelow.href = googleUrl;
 };
