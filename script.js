@@ -26,14 +26,6 @@ let questions = [];
 let answers = [];
 let current = 0;
 
-// 初期表示のリセット
-function resetScreens() {
-  startScreen.style.display = "block";
-  questionScreen.style.display = "none";
-  completeScreen.style.display = "none";
-  reviewScreen.style.display = "none";
-}
-
 // JSON読み込み（非同期）
 async function loadShopData(shopKey) {
   try {
@@ -59,7 +51,7 @@ function activateStartButton() {
   startBtn.onclick = () => {
     startScreen.style.display = "none";
     questionScreen.style.display = "block";
-    renderQuestion();
+    renderQuestion(); // ← この時点で questions はセット済み
   };
 }
 
@@ -108,36 +100,35 @@ nextBtn.onclick = () => {
 viewDraftBtn.onclick = () => {
   completeScreen.style.display = "none";
   reviewScreen.style.display = "block";
-  if (!reviewText.value) {
-    reviewText.value = "丁寧な対応で満足しています。";
-  }
+  reviewText.value = reviewText.value || "丁寧な対応で満足しています。";
   charCount.textContent = reviewText.value.length;
   updateGoogleLinks();
 };
 
-// Googleクチコミリンク更新＋コピー機能付き
+// Googleクチコミリンク更新（コピー → 新しいタブで開く）
 function updateGoogleLinks() {
   const url = `https://g.page/r/${placeId}/review`;
 
-  const copyReviewToClipboard = () => {
-    const text = reviewText.value;
-    if (text) {
-      navigator.clipboard.writeText(text).then(() => {
-        console.log("クチコミ文案をコピーしました。");
-      }).catch(err => {
-        console.warn("コピーに失敗しました:", err);
-      });
-    }
+  const handleClick = (e) => {
+    e.preventDefault(); // デフォルトリンク動作を止める
+    const text = reviewText.value || "";
+    navigator.clipboard.writeText(text).then(() => {
+      console.log("クチコミ文案をコピーしました！");
+      window.open(url, '_blank'); // 新しいタブで開く
+    }).catch(err => {
+      console.error("コピー失敗:", err);
+      window.open(url, '_blank'); // 失敗してもリンクは開く
+    });
   };
 
   if (reviewLink) {
     reviewLink.href = url;
-    reviewLink.onclick = copyReviewToClipboard;
+    reviewLink.addEventListener("click", handleClick);
   }
 
   if (reviewLinkBelow) {
     reviewLinkBelow.href = url;
-    reviewLinkBelow.onclick = copyReviewToClipboard;
+    reviewLinkBelow.addEventListener("click", handleClick);
   }
 }
 
@@ -151,9 +142,8 @@ function setShopName() {
 
 // 初期化
 document.addEventListener("DOMContentLoaded", async () => {
-  resetScreens();
   await loadShopData(shopParam);
   updateGoogleLinks();
   setShopName();
-  activateStartButton();
+  activateStartButton(); // ← 読み込み完了後にボタン機能を有効化！
 });
