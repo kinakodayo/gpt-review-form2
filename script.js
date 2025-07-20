@@ -11,6 +11,15 @@ const charCount = document.getElementById("charCount");
 const reviewLink = document.getElementById("reviewLink"); // 完了画面のリンク
 const reviewLinkBelow = document.getElementById("reviewLinkBelow"); // 文章案画面のリンク
 
+const questionContainer = document.getElementById("question-container");
+const prevBtn = document.getElementById("prevBtn");
+const nextBtn = document.getElementById("nextBtn");
+
+// URLパラメータ取得
+const params = new URLSearchParams(window.location.search);
+const placeId = params.get("place") || "CciW4fD4jwcoEBM"; // デフォルトplace_id
+const shopName = params.get("shop") || "キキコミハウスクリーニング"; // デフォルト屋号名
+
 // 質問管理
 const questions = [
   "どのようなホームページ制作をご依頼されましたか？",
@@ -27,10 +36,6 @@ const questions = [
 
 let current = 0;
 let answers = new Array(questions.length).fill("");
-
-const questionContainer = document.getElementById("question-container");
-const prevBtn = document.getElementById("prevBtn");
-const nextBtn = document.getElementById("nextBtn");
 
 // スタート画面から質問へ遷移
 startBtn.onclick = () => {
@@ -76,6 +81,7 @@ nextBtn.onclick = () => {
       minute: "2-digit"
     });
     completeTime.textContent = `アンケート回答日時：${formatted}`;
+    updateGoogleLinks();
   }
 };
 
@@ -84,16 +90,32 @@ viewDraftBtn.onclick = () => {
   completeScreen.style.display = "none";
   reviewScreen.style.display = "block";
 
-  // 仮のクチコミ文章案（実際にはAI生成などに差し替え可能）
+  // 仮のクチコミ文章案（必要なら shopName を使って動的生成も可能）
   let content =
     "ご依頼いただいたホームページ制作について、丁寧に対応していただき、とても満足しています。スタッフの方の対応も親切で、納得のいく仕上がりとなりました。今後もサポートを期待しています。";
 
-  // 表示と文字数更新
   reviewText.value = content;
   charCount.textContent = content.length;
+  updateGoogleLinks();
+};
 
-  // Googleクチコミ投稿ページのリンク（上と下）を固定リンクに変更
-  const googleUrl = "https://g.page/r/CciW4fD4jwcoEBM/review";
+// Googleクチコミリンクを更新する
+function updateGoogleLinks() {
+  const googleUrl = `https://g.page/r/${placeId}/review`;
   if (reviewLink) reviewLink.href = googleUrl;
   if (reviewLinkBelow) reviewLinkBelow.href = googleUrl;
-};
+}
+
+// 屋号名を画面内に反映する
+function setShopName() {
+  const titleEls = document.querySelectorAll(".brand-title");
+  titleEls.forEach(el => {
+    el.textContent = shopName;
+  });
+}
+
+// 初期化
+document.addEventListener("DOMContentLoaded", () => {
+  updateGoogleLinks();
+  setShopName();
+});
