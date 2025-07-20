@@ -10,7 +10,6 @@ const reviewText = document.getElementById("reviewText");
 const charCount = document.getElementById("charCount");
 const reviewLink = document.getElementById("reviewLink");
 const reviewLinkBelow = document.getElementById("reviewLinkBelow");
-
 const questionContainer = document.getElementById("question-container");
 const prevBtn = document.getElementById("prevBtn");
 const nextBtn = document.getElementById("nextBtn");
@@ -51,7 +50,7 @@ function activateStartButton() {
   startBtn.onclick = () => {
     startScreen.style.display = "none";
     questionScreen.style.display = "block";
-    renderQuestion(); // ← この時点で questions はセット済み
+    renderQuestion();
   };
 }
 
@@ -82,7 +81,6 @@ nextBtn.onclick = () => {
   } else {
     questionScreen.style.display = "none";
     completeScreen.style.display = "block";
-
     const now = new Date();
     const formatted = now.toLocaleString("ja-JP", {
       year: "numeric",
@@ -105,31 +103,53 @@ viewDraftBtn.onclick = () => {
   updateGoogleLinks();
 };
 
-// Googleクチコミリンク更新（コピー → 新しいタブで開く）
+// 文字数カウント（リアルタイム）
+reviewText.addEventListener("input", () => {
+  charCount.textContent = reviewText.value.length;
+});
+
+// Googleクチコミリンク更新
 function updateGoogleLinks() {
   const url = `https://g.page/r/${placeId}/review`;
-
-  const handleClick = (e) => {
-    e.preventDefault(); // デフォルトリンク動作を止める
-    const text = reviewText.value || "";
-    navigator.clipboard.writeText(text).then(() => {
-      console.log("クチコミ文案をコピーしました！");
-      window.open(url, '_blank'); // 新しいタブで開く
-    }).catch(err => {
-      console.error("コピー失敗:", err);
-      window.open(url, '_blank'); // 失敗してもリンクは開く
-    });
-  };
-
   if (reviewLink) {
-    reviewLink.href = url;
-    reviewLink.addEventListener("click", handleClick);
+    reviewLink.onclick = () => {
+      const text = reviewText.value || "丁寧な対応で満足しています。";
+      navigator.clipboard.writeText(text).then(() => {
+        showCopyToast();
+        window.open(url, '_blank');
+      });
+      return false;
+    };
   }
-
   if (reviewLinkBelow) {
-    reviewLinkBelow.href = url;
-    reviewLinkBelow.addEventListener("click", handleClick);
+    reviewLinkBelow.onclick = () => {
+      const text = reviewText.value || "丁寧な対応で満足しています。";
+      navigator.clipboard.writeText(text).then(() => {
+        showCopyToast();
+        window.open(url, '_blank');
+      });
+      return false;
+    };
   }
+}
+
+// コピー通知表示
+function showCopyToast() {
+  const toast = document.createElement("div");
+  toast.textContent = "コピーしました！";
+  toast.style.position = "fixed";
+  toast.style.bottom = "20px";
+  toast.style.left = "50%";
+  toast.style.transform = "translateX(-50%)";
+  toast.style.backgroundColor = "#333";
+  toast.style.color = "#fff";
+  toast.style.padding = "10px 20px";
+  toast.style.borderRadius = "5px";
+  toast.style.zIndex = "9999";
+  document.body.appendChild(toast);
+  setTimeout(() => {
+    document.body.removeChild(toast);
+  }, 2000);
 }
 
 // 屋号名表示更新
@@ -145,5 +165,5 @@ document.addEventListener("DOMContentLoaded", async () => {
   await loadShopData(shopParam);
   updateGoogleLinks();
   setShopName();
-  activateStartButton(); // ← 読み込み完了後にボタン機能を有効化！
+  activateStartButton();
 });
