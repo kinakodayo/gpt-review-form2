@@ -105,35 +105,11 @@ viewDraftBtn.onclick = () => {
   updateGoogleLinks();
 };
 
-// Googleクチコミリンク更新（クリック時に自動コピー＆新規タブで開く）
+// Googleクチコミリンク更新
 function updateGoogleLinks() {
   const url = `https://g.page/r/${placeId}/review`;
-
-  if (reviewLink) {
-    reviewLink.onclick = (e) => {
-      e.preventDefault();
-      copyReviewAndRedirect(url);
-    };
-  }
-
-  if (reviewLinkBelow) {
-    reviewLinkBelow.onclick = (e) => {
-      e.preventDefault();
-      copyReviewAndRedirect(url);
-    };
-  }
-}
-
-// クチコミ文章をコピーしてGoogleページに移動
-function copyReviewAndRedirect(url) {
-  const text = reviewText.value;
-  navigator.clipboard.writeText(text).then(() => {
-    alert("クチコミ文章をコピーしました。Googleのクチコミ投稿画面に移動します。");
-    window.open(url, "_blank");
-  }).catch(err => {
-    alert("コピーに失敗しました。もう一度お試しください。");
-    console.error("Clipboard error:", err);
-  });
+  if (reviewLink) reviewLink.href = url;
+  if (reviewLinkBelow) reviewLinkBelow.href = url;
 }
 
 // 屋号名表示更新
