@@ -1,14 +1,16 @@
-// スタート画面制御
+// スクリーン制御
 const startBtn = document.getElementById("startBtn");
 const startScreen = document.getElementById("start-screen");
 const questionScreen = document.getElementById("question-screen");
+const completeScreen = document.getElementById("complete-screen");
+const completeTime = document.getElementById("complete-time");
 
 startBtn.onclick = () => {
   startScreen.style.display = "none";
   questionScreen.style.display = "block";
 };
 
-// アンケート内容と制御
+// 質問と回答管理
 const questions = [
   "どのようなホームページ制作をご依頼されましたか？",
   "弊社を選んでいただいた理由を教えてください。",
@@ -52,9 +54,18 @@ nextBtn.onclick = () => {
     current++;
     renderQuestion();
   } else {
-    alert("アンケートが完了しました。");
-    console.log("回答:", answers);
-    // ここにGPTなどの送信処理追加OK
+    questionScreen.style.display = "none";
+    completeScreen.style.display = "block";
+
+    const now = new Date();
+    const formatted = now.toLocaleString("ja-JP", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit"
+    });
+    completeTime.textContent = `アンケート回答日時：${formatted}`;
   }
 };
 
