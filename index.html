@@ -5,113 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>キキコミハウスクリーニング</title>
   <link rel="stylesheet" href="style.css" />
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      background-color: #fff5ec;
-      font-family: 'Noto Sans JP', sans-serif;
-    }
-
-    #app {
-      max-width: 520px;
-      margin: 0 auto;
-      padding: 24px;
-    }
-
-    .logo {
-      display: block;
-      max-width: 220px;
-      margin: 0 auto 20px;
-    }
-
-    h1 {
-      text-align: center;
-      font-size: 20px;
-      color: #333;
-    }
-
-    .description {
-      background-color: #ffffff;
-      border-radius: 12px;
-      padding: 20px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
-      margin-top: 16px;
-    }
-
-    .description p {
-      line-height: 1.6;
-      font-size: 15px;
-      color: #333;
-    }
-
-    .note {
-      color: red;
-      font-size: 14px;
-      margin-top: 10px;
-    }
-
-    #startBtn {
-      display: block;
-      width: 100%;
-      background-color: #007bff;
-      color: #fff;
-      padding: 14px;
-      font-size: 16px;
-      margin: 24px 0;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-
-    #startBtn:hover {
-      background-color: #0056b3;
-    }
-
-    #footer {
-      display: flex;
-      justify-content: space-between;
-      gap: 8px;
-      margin-top: 20px;
-    }
-
-    button {
-      flex: 1;
-      padding: 12px;
-      font-size: 16px;
-      border: none;
-      border-radius: 8px;
-      background-color: #007bff;
-      color: white;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background-color: #0056b3;
-    }
-
-    textarea {
-      width: 100%;
-      padding: 12px;
-      font-size: 16px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-      box-sizing: border-box;
-      margin-top: 12px;
-    }
-
-    #question-container p:first-child {
-      font-weight: bold;
-      font-size: 17px;
-    }
-
-    #question-container p:last-child {
-      font-size: 12px;
-      text-align: center;
-      color: gray;
-      margin-top: 8px;
-    }
-  </style>
 </head>
 <body>
   <div id="app">
@@ -128,7 +21,7 @@
       <button id="startBtn">アンケートに答える</button>
     </div>
 
-    <!-- アンケート画面（非表示から開始） -->
+    <!-- アンケート画面 -->
     <div id="question-screen" style="display: none;">
       <div id="question-container"></div>
       <div id="footer">
